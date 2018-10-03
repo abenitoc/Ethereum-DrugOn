@@ -14,7 +14,7 @@ module.exports = {
       "http://localhost:8545"
     ],
     contracts: {
-      DTwitter: {
+      DrugOn: {
         args: [ ]
       }
     },
