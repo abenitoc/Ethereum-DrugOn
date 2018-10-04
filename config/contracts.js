@@ -41,12 +41,12 @@ module.exports = {
         }
       ],
       contracts: {
-        DTwitter: {
+          DrugOn: {
           args: [ ]
         }
       },
       gasLimit: 9000000,
-      gasPrice: 91200,
+      gasPrice: 100,
       host: "rinkeby.infura.io/nmY8WtT4QfEwz2S7wTbl",
       port: false,
       protocol: 'https',
