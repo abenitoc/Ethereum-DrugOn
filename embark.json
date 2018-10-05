@@ -2,10 +2,9 @@
   "contracts": ["contracts/**"],
   "app": {
     "css/app.css": ["app/css/**"],
-    "fonts": ["app/fonts/**"],
+    "js/app.js": ["app/js/index.js"],
     "images/": ["app/images/**"],
-    "index.html": "app/index.html",
-    "js/app.js": ["app/js/dapp.js"]
+    "index.html": "app/index.html"
   },
   "buildDir": "dist/",
   "config": "config/",
@@ -15,5 +14,11 @@
     "ipfs-api": "17.2.4"
   },
   "plugins": {
+  },
+  "options": {
+    "solc": {
+      "optimize": true,
+      "optimize-runs": 200
+    }
   }
 }

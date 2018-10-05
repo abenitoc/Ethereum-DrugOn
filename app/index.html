@@ -1,20 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+  <head>
+    <title>DrugOn</title>
+    <link rel="stylesheet" href="css/app.css">
+    <script src="js/app.js"></script>
+  </head>
+  <body>
+  
+    <div id="DrugOnite">
+      <h3>DrugOnite</h3>
+      <button id="createAddress">Create address</button>
+      <div class="result"></div>
+      
+      
+      <div class="patients">
+      	<h4>Patients</h4>
+      </div>
+      <button id="createPatient">Create Patient</button>
+      <input id="inputPatient" placeholder="enter account address: e.g 0x123" />
+      
+      <div class="medics">
+        <h4>Medics</h4>
+      </div>
+      <button id="createMedic">Create Medic</button>
+      <input id="inputMedic" placeholder="enter account address: e.g 0x123" />
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-  <meta name="theme-color" content="#000000">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="shortcut icon" href="/favicon.ico">
-  <title>Decentralised Twitter dApp for DappCon 2018!</title>
-  <link href="css/app.css" rel="stylesheet">
-</head>
+      <div class="prescriptions">
+        <h4>Prescriptions</h4>
+        <button id="createPrescription">Create prescriptions</button>
+        <p>Patient</p>
+        <input id="patientToPrescript" placeholder="enter account address: e.g 0x123" />
+        <p>Medic</p>
+        <input id="medicWhoPrescrip" placeholder="enter account address: e.g 0x123" />
+        <p>Prescription</p>
+        <input id="idPrescription" placeholder="enter account address: e.g 0x123" />
 
-<body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
-  <script type="text/javascript" src="js/app.js"></script>
-</body>
+        <div class="listPrescriptions">
+          
+        </div>
+      </div>
 
+      <div class="doctors_api">
+        <h4>API DOCTORS</h4>
+      </div>
+      <button id="obtainDoctors">Get Doctors</button>
+
+    </div>
+  
+  </body>
 </html>

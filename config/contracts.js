@@ -1,11 +1,29 @@
 module.exports = {
-  // default applies to all enviroments
+  // default applies to all environments
   default: {
-    // rpc to deploy the contracts
+    // Blockchain node to deploy the contracts
     deployment: {
-      host: "localhost",
-      port: 8545,
-      type: "rpc"
+      host: "localhost", // Host of the blockchain node
+      port: 8545, // Port of the blockchain node
+      type: "rpc" // Type of connection (ws or rpc),
+      // Accounts to use instead of the default account to populate your wallet
+      /*,accounts: [
+        {
+          privateKey: "your_private_key",
+          balance: "5 ether"  // You can set the balance of the account in the dev environment
+                              // Balances are in Wei, but you can specify the unit with its name
+        },
+        {
+          privateKeyFile: "path/to/file", // Either a keystore or a list of keys, separated by , or ;
+          password: "passwordForTheKeystore" // Needed to decrypt the keystore file
+        },
+        {
+          mnemonic: "12 word mnemonic",
+          addressIndex: "0", // Optionnal. The index to start getting the address
+          numAddresses: "1", // Optionnal. The number of addresses to get
+          hdpath: "m/44'/60'/0'/0/" // Optionnal. HD derivation path
+        }
+      ]*/
     },
     // order of connections the dapp should connect to
     dappConnection: [
@@ -13,52 +31,43 @@ module.exports = {
       "ws://localhost:8546",
       "http://localhost:8545"
     ],
-    contracts: {
-      DrugOn: {
-        args: [ ]
-      }
-    },
     gas: "auto",
     gasLimit: 9000000,
-    gasPrice: 100
-  },
-  testnet: {
-    deployment:{
-      // accounts: [
-      //   {
-      //     "mnemonic": "wave pigeon sustain sock boring monitor left sight hedgehog weapon champion session",
-      //     "addressIndex": "0", // Optional. The index to start getting the address
-      //     "numAddresses": "2", // Optional. The number of addresses to get
-      //     "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
-      //   }
-      // ],
-      accounts: [
-        {
-          "mnemonic": "acquire hole quarter security auto wedding leader audit baby dawn gravity obvious",
-          "addressIndex": "0", // Optional. The index to start getting the address
-          "numAddresses": "2", // Optional. The number of addresses to get
-          "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
-        }
-      ],
-      contracts: {
-          DrugOn: {
+    gasPrice: 100,
+    contracts: {
+      DrugOn: {
           args: [ ]
         }
-      },
-      gasLimit: 9000000,
-      gasPrice: 100,
-      host: "rinkeby.infura.io/nmY8WtT4QfEwz2S7wTbl",
-      port: false,
-      protocol: 'https',
-      type: "rpc"
     }
   },
 
+  // default environment, merges with the settings in default
+  // assumed to be the intended environment by `embark run`
   development: {
     dappConnection: [
       "ws://localhost:8546",
       "http://localhost:8545",
       "$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
     ]
-  }
-}
+  },
+
+  // merges with the settings in default
+  // used with "embark run privatenet"
+  privatenet: {
+  },
+
+  // merges with the settings in default
+  // used with "embark run testnet"
+  testnet: {
+  },
+
+  // merges with the settings in default
+  // used with "embark run livenet"
+  livenet: {
+  },
+
+  // you can name an environment with specific settings and then specify with
+  // "embark run custom_name" or "embark blockchain custom_name"
+  //custom_name: {
+  //}
+};

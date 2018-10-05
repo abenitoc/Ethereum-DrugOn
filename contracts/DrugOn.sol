@@ -3,60 +3,71 @@ pragma solidity ^0.4.24;
 contract DrugOn {
 
     struct Doctor {
-        uint creationDate;
-        address owner;          // address of the account who created the user
-        string[] prescriptions;
+        bool exists;
     }
 
     struct Patient {
-        uint creationDate;
-        address owner;
+        bool exists;
+        Prescription[] prescriptions;
     }
 
-    mapping (bytes32 => Doctor) public medics;
-    mapping (bytes32 => Patient) public patients;
-    mapping (address => bytes32) public owners;
+    struct Prescription{
+        address from;
+        uint prescription;
+        uint expiringtime;
+        uint time;
+    }
+    
+    mapping (address => Doctor) public medics;
+    mapping (address => Patient) public patients;
 
-    event NewPrescription(
-        bytes32 indexed _from,
-        bytes32 indexed _to,
-        string prescription,
-        uint expiringtime,
-        uint time
-    );
 
     function createPatient() public{
-        require(owners[msg.sender] == 0);
-        patients[bytes32(msg.sender)].creationDate = now;
-        patients[bytes32(msg.sender)].owner = msg.sender;
+        require(patients[msg.sender].exists != true);
+        patients[msg.sender].exists = true;
     }
 
     function createMedic() public {
-        require(owners[msg.sender] == 0);
-        require(medics[bytes32(msg.sender)].creationDate == 0);
-
-        medics[bytes32(msg.sender)].creationDate = now;
-        medics[bytes32(msg.sender)].owner = msg.sender;
+        require(medics[msg.sender].exists != true);
+        patients[msg.sender].exists = true;
     }
 
-    function createPrescription(string content, bytes32 patientAdress) public {
-        require(owners[msg.sender].length > 0);
-        require(patientExist(patientAdress));
-        require(bytes(content).length <= 100);
-        require(bytes32(patientAdress).length <= 10000);
-
-        bytes32 medicHash = owners[msg.sender];
-        Doctor storage mediquito = medics[medicHash];
-        uint prescriptionIndex = mediquito.prescriptions.length++;
-
-        mediquito.prescriptions[prescriptionIndex] = content;
-
-        // emit the tweet event and notify the listeners
-        emit NewPrescription(medicHash, patientAdress, content, now + 60 days, now);
+    function createPrescription(address patient, uint prescription, uint time, uint expiringtime) public {
+        require(medics[msg.sender].exists == true);
+        require(patients[patient].exists == true);
+        patients[patient].prescriptions[patients[patient].prescriptions.length] = Prescription(msg.sender, prescription, time, expiringtime);
     }
-
-    function patientExist(bytes32 patientHash) public view returns (bool){
-        return patients[patientHash].creationDate != 0;
+    
+    
+    function recipesValid(address patient, uint recipe, uint actualDate) public view returns (bool){
+        bool exists = false;
+        if (patients[patient].exists == true && actualDate < patients[patient].prescriptions[recipe].expiringtime ){
+            for(uint i = 0; i < patients[patient].prescriptions.length; i++){
+                if(patients[patient].prescriptions[i].prescription == recipe ){
+                    exists = true;
+                }
+            }
+        }
+        return exists;
+    }
+    
+    function getPrescritionsCount(address patient) public view returns (uint){
+        require(patients[patient].exists == true);
+        return patients[patient].prescriptions.length;
+    }
+    
+    function getPrescritionsById(address patient, uint index) public view returns (address from, uint prescription, uint expiringtime, uint time){
+        require(patients[patient].exists == true);
+        require(index >= 0);
+        
+        Prescription memory local_pres = patients[patient].prescriptions[index];
+        return (local_pres.from, local_pres.prescription, local_pres.expiringtime, local_pres.time);
+    }
+    
+    function getDoctor(address patient, uint recipe) public view returns (address){
+        require(patients[patient].exists != true);
+        require(patients[patient].prescriptions[recipe].prescription > 0);
+        return patients[patient].prescriptions[recipe].from;
     }
 
 }
