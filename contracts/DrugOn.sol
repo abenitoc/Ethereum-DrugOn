@@ -45,9 +45,9 @@ contract DrugOn {
     
     function recipesValid(address patient, uint recipe, uint actualDate) public view returns (bool){
         bool exists = false;
-        if (patients[patient].exists == true && actualDate < patients[patient].prescriptions[recipe].expiringtime ){
+        if (patients[patient].exists == true ){
             for(uint i = 0; i < patients[patient].prescriptions.length; i++){
-                if(patients[patient].prescriptions[i].idPrescription == recipe ){
+                if(patients[patient].prescriptions[i].idPrescription == recipe && actualDate < patients[patient].prescriptions[i].expiringtime){
                     exists = true;
                 }
             }
@@ -68,10 +68,10 @@ contract DrugOn {
         return (local_pres.from, local_pres.idPrescription, local_pres.expiringtime, local_pres.time);
     }
     
-    function getDoctor(address patient, uint recipe) public view returns (address){
-        require(patients[patient].exists != true);
-        require(patients[patient].prescriptions[recipe].idPrescription > 0);
-        return patients[patient].prescriptions[recipe].from;
+    function getDoctor(address patient, uint recipeId) public view returns (address){
+        require(patients[patient].exists == true);
+        require(patients[patient].prescriptions[recipeId].time > 0);
+        return patients[patient].prescriptions[recipeId].from;
     }
 
     function existsDoctor(address doctor) public view returns (bool) {
