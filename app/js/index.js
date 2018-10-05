@@ -32,25 +32,23 @@ $(document).ready(function() {
 				// set up our contract method with the input values from the form
 				const createPatient = DrugOn.methods.createPatient();
 
-				web3.eth.personal.unlockAccount(address,"MyPassword", 15000, function(err, result) {
-					// get a gas estimate before sending the transaction
-					createPatient.estimateGas({ from: address, gas: 1000000 },function(err, gasEstimate) {
-						if (err) {
-							console.log('estimation error ', err)
-						} else {
-							console.log(gasEstimate)
-							createPatient.send({ from: address,  gas: gasEstimate + 1000 },function(result) {
-								console.log(result)
-								// check result status. if status is false or '0x0', show user the tx details to debug error
-								if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
-									return console.log('Error executing transaction, transaction details: ' + JSON.stringify(result));
-								} else {
-									$('#DrugOnite .Patients h4').after('<p>'+address+'</p>');
-								}
-							});
-						}
-					});
-				})
+				// get a gas estimate before sending the transaction
+				createPatient.estimateGas({ from: address, gas: 100000 },function(err, gasEstimate) {
+					if (err) {
+						console.log('estimation error ', err)
+					} else {
+						console.log(gasEstimate)
+						createPatient.send({ from: address,  gas: gasEstimate + 1000 },function(result) {
+							console.log(result)
+							// check result status. if status is false or '0x0', show user the tx details to debug error
+							if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
+								return console.log('Error executing transaction, transaction details: ' + JSON.stringify(result));
+							} else {
+								$('#DrugOnite .Patients h4').after('<p>'+address+'</p>');
+							}
+						});
+					}
+				});
 
 		    } catch (err) {
 		    	console.log("try catch error ", err)
@@ -66,24 +64,23 @@ $(document).ready(function() {
 				// set up our contract method with the input values from the form
 				const createMedic = DrugOn.methods.createMedic();
 
-				web3.eth.personal.unlockAccount(address,"MyPassword", 15000, function(err, result) {
-					// get a gas estimate before sending the transaction
-					createMedic.estimateGas({ from: address, gas: 10000000000 },function(err, gasEstimate) {
-						if (err) {
-							console.log('estimation error ', err)
-						} else {
-							console.log(gasEstimate)
-							createMedic.send({ from: address,  gas: gasEstimate + 1000 },function(result) {
-								// check result status. if status is false or '0x0', show user the tx details to debug error
-								if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
-									return console.log('Error executing transaction, transaction details: ' + JSON.stringify(result));
-								} else {
-									$('#DrugOnite .Medics h4').after('<p>'+address+'</p>');
-								}
-							});
-						}
-					});
-				})
+				// get a gas estimate before sending the transaction
+				createMedic.estimateGas({ from: address, gas: 100000 },function(err, gasEstimate) {
+					if (err) {
+						console.log('estimation error ', err)
+					} else {
+						console.log(gasEstimate)
+						createMedic.send({ from: address,  gas: gasEstimate + 1000 },function(result) {
+							console.log(result)
+							// check result status. if status is false or '0x0', show user the tx details to debug error
+							if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
+								return console.log('Error executing transaction, transaction details: ' + JSON.stringify(result));
+							} else {
+								$('#DrugOnite .Medics h4').after('<p>'+address+'</p>');
+							}
+						});
+					}
+				});
 
 		    } catch (err) {
 		    	console.log("try catch error ", err)

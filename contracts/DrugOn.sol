@@ -29,7 +29,7 @@ contract DrugOn {
 
     function createMedic() public {
         require(medics[msg.sender].exists != true);
-        patients[msg.sender].exists = true;
+        medics[msg.sender].exists = true;
     }
 
     function createPrescription(address patient, uint prescription, uint time, uint expiringtime) public {
@@ -68,6 +68,10 @@ contract DrugOn {
         require(patients[patient].exists != true);
         require(patients[patient].prescriptions[recipe].prescription > 0);
         return patients[patient].prescriptions[recipe].from;
+    }
+
+    function exitsDoctor(address doctor) public view returns (bool) {
+        return medics[doctor].exists;
     }
 
 }

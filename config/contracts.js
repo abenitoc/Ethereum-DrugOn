@@ -3,7 +3,7 @@ module.exports = {
   default: {
     // Blockchain node to deploy the contracts
     deployment: {
-      host: "localhost", // Host of the blockchain node
+      host: "159.65.195.95", // Host of the blockchain node
       port: 8545, // Port of the blockchain node
       type: "rpc" // Type of connection (ws or rpc),
       // Accounts to use instead of the default account to populate your wallet
@@ -28,12 +28,12 @@ module.exports = {
     // order of connections the dapp should connect to
     dappConnection: [
       "$WEB3",  // uses pre existing web3 object if available (e.g in Mist)
-      "ws://localhost:8546",
-      "http://localhost:8545"
+      "ws://159.65.195.95:8546",
+      "http://159.65.195.95:8545"
     ],
     gas: "auto",
-    gasLimit: 9000000,
-    gasPrice: 100,
+    gasLimit: 20000000000,
+    gasPrice: 6721975,
     contracts: {
       DrugOn: {
           args: [ ]
@@ -45,8 +45,8 @@ module.exports = {
   // assumed to be the intended environment by `embark run`
   development: {
     dappConnection: [
-      "ws://localhost:8546",
-      "http://localhost:8545",
+      "ws://159.65.195.95:8546",
+      "http://159.65.195.95:8545",
       "$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
     ]
   },
