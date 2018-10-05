@@ -24,10 +24,12 @@ contract DrugOn {
 
     function createPatient() public{
         require(patients[msg.sender].exists != true);
+        require(medics[msg.sender].exists != true);
         patients[msg.sender].exists = true;
     }
 
     function createMedic() public {
+        require(patients[msg.sender].exists != true);
         require(medics[msg.sender].exists != true);
         medics[msg.sender].exists = true;
     }
@@ -36,7 +38,7 @@ contract DrugOn {
         require(medics[msg.sender].exists == true);
         require(patients[patient].exists == true);
         Patient storage pat = patients[patient];
-        var p1 = Prescription(msg.sender, idPrescription, expiringtime, time);
+        Prescription memory p1 = Prescription(msg.sender, idPrescription, expiringtime, time);
         pat.prescriptions.push(p1);
     }
     
