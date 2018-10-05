@@ -13,33 +13,35 @@ $(document).ready(function() {
 			for (var i = 0; i < accounts.length; i++) {
 				$('#DrugOnite .result').append('<p>'+accounts[i]+'</p>');
 			}
-		})
-
-
-		// CREATE ADDRESS
-		$('#DrugOnite button#createAddress').click(function() {
-			web3.eth.personal.newAccount('MyPassword', function(err, account) {
-				$('#DrugOnite .result').append('<p>'+account+'</p>');
-			})
 		});
-
 
 		// CREATE PATIENTS
 		$('#DrugOnite button#createPatient').click(function() {
-			createPatient()
+			createPatient();
 		});
 
 
 		// CREATE MEDICS
 		$('#DrugOnite button#createMedic').click(function() {
-			createMedic()
+			createMedic();
 		});
 
 
 		// CREATE PRECRIPTION
 		$('#DrugOnite button#createPrescription').click(function() {
-			createOnePrescription()
+			createOnePrescription();
 		});
+
+		// GET DOCTOR
+		$('#DrugOnite button#getDoctor').click(function() {
+			getDoctor();
+		});
+
+		// GET DOCTOR
+		$('#DrugOnite button#getPrescriptionById').click(function() {
+			getPrescriptionById();
+		});
+
 
 		$('#DrugOnite button#obtainDoctors').click(function() {
 			var get_request = $.get({
@@ -53,20 +55,20 @@ $(document).ready(function() {
             });
 
             get_request.fail((response) => {
-                console.log(response)
+                console.log(response);
             })
 		});
 
 		$('#DrugOnite button#idDoctor').click(function() {
-			isDoctorByAddress()			
+			isDoctorByAddress();	
 		})
 	});
 });
 
 var isDoctorByAddress = async () => {
 	var addressDoctor = $('#DrugOnite input#inputIsDoctor').val();
-	var existsDoctor = await DrugOn.methods.existsDoctor(addressDoctor).call()
-	console.log(existsDoctor)	
+	var existsDoctor = await DrugOn.methods.existsDoctor(addressDoctor).call();
+	console.log(existsDoctor);
 }
 
 var createPatient = async () => {
@@ -99,17 +101,48 @@ var createOnePrescription = async () => {
 	var expiringtime = Date.now();
 	var time = expiringtime + 1000*60*60*24*60;
 
-	console.log(addressPatient)
-	console.log(addressMedic)
-	console.log(idPrescription)
-	console.log(expiringtime)
-	console.log(time)
-
-
 	// set up our contract method with the input values from the form
 	const createPrescription = DrugOn.methods.createPrescription(addressPatient, parseInt(idPrescription), expiringtime, time);
-	const gasEstimate = await createPrescription.estimateGas({ from: addressMedic, gas: 100000 });
+	const gasEstimate = await createPrescription.estimateGas({ from: addressMedic, gas: 1000000 });
 	const result = await createPrescription.send({ from: addressMedic,  gas: gasEstimate + 1000 });
 
 	$('#DrugOnite .listPrescriptions h4').after('<p>'+idPrescription+'</p>');
+}
+
+var getPrescritionsCount = async () => {
+
+	var addressPatient = $('#DrugOnite input#patientToPrescript').val();
+
+	// set up our contract method with the input values from the form
+	const getPrescritionsCount = await DrugOn.methods.getPrescritionsCount(addressPatient).call();
+}
+
+var getPrescriptionById = async () => {
+
+	var addressPatient = $('#DrugOnite input#patientToPrescript').val();
+	var index = 0;
+
+	// set up our contract method with the input values from the form
+	const getPrescritionsById = await DrugOn.methods.getPrescritionsById(addressPatient, index).call();
+	console.log(getPrescritionsById)
+}
+
+var getDoctor = async () => {
+
+	var addressPatient = $('#DrugOnite input#patientToPrescript').val();
+	var idPrescription = 0;
+
+	// set up our contract method with the input values from the form
+	const getDoctor = await DrugOn.methods.getDoctor(addressPatient, idPrescription).call();
+	console.log(getDoctor)
+}
+
+var recipesValid = async () => {
+
+	var addressPatient = $('#DrugOnite input#patientToPrescript').val();
+	var idPrescription = 122;
+	var actualDate = Date.now();
+
+	// set up our contract method with the input values from the form
+	const recipesValid = await DrugOn.methods.recipesValid(addressPatient, idPrescription, actualDate).call();
 }
